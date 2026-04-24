@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnapCut — وثيقة المشروع الشاملة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --cream: #F8F5F0;
+  --gold: #C8952A;
+  --gold2: #E8B84B;
+  --green: #166640;
+  --green2: #1D8A55;
+  --red: #8C1F1F;
+  --blue: #0F3460;
+  --purple: #3A0F6E;
+  --border: rgba(200,149,42,0.25);
+  --muted: #888;
+  --card-bg: #111111;
+  --section-bg: #0F0F0F;
+}
+
+- { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+body {
+font-family: ‘Cairo’, sans-serif;
+background: var(–black);
+color: var(–white);
+line-height: 1.8;
+overflow-x: hidden;
+}
+
+/* ════════════════════════════════════
+COVER
+════════════════════════════════════ */
+.cover {
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+padding: 80px 40px;
+position: relative;
+background: var(–black);
+overflow: hidden;
+}
+
+.cover-noise {
+position: absolute; inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+opacity: 0.4;
+}
+
+.cover-glow {
+position: absolute;
+width: 700px; height: 700px;
+border-radius: 50%;
+background: radial-gradient(circle, rgba(200,149,42,0.08) 0%, transparent 70%);
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.cover-lines {
+position: absolute; inset: 0;
+background-image: repeating-linear-gradient(
+0deg,
+transparent,
+transparent 79px,
+rgba(200,149,42,0.04) 79px,
+rgba(200,149,42,0.04) 80px
+),
+repeating-linear-gradient(
+90deg,
+transparent,
+transparent 79px,
+rgba(200,149,42,0.04) 79px,
+rgba(200,149,42,0.04) 80px
+);
+}
+
+.cover-content { position: relative; z-index: 2; max-width: 900px; }
+
+.cover-eyebrow {
+font-size: 10px;
+letter-spacing: 6px;
+color: var(–gold);
+font-weight: 700;
+margin-bottom: 50px;
+font-family: ‘Tajawal’, sans-serif;
+opacity: 0.8;
+}
+
+.app-names-row {
+display: flex;
+gap: 16px;
+justify-content: center;
+flex-wrap: wrap;
+margin-bottom: 16px;
+}
+
+.app-name-btn {
+font-family: ‘Tajawal’, sans-serif;
+font-weight: 900;
+font-size: clamp(38px, 6vw, 76px);
+color: rgba(255,255,255,0.12);
+cursor: pointer;
+transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+letter-spacing: -2px;
+line-height: 1;
+padding: 4px 12px;
+border: 1px solid transparent;
+background: none;
+user-select: none;
+}
+
+.app-name-btn.active {
+color: var(–gold2);
+border-color: rgba(200,149,42,0.3);
+text-shadow: 0 0 80px rgba(200,149,42,0.5);
+background: rgba(200,149,42,0.05);
+}
+
+.app-name-btn:hover:not(.active) { color: rgba(255,255,255,0.35); }
+
+.name-hint {
+font-size: 12px;
+color: rgba(255,255,255,0.25);
+letter-spacing: 2px;
+margin-bottom: 48px;
+font-family: ‘Tajawal’, sans-serif;
+}
+
+.cover-tagline {
+font-family: ‘Tajawal’, sans-serif;
+font-size: clamp(16px, 2.5vw, 22px);
+font-weight: 300;
+color: rgba(255,255,255,0.6);
+max-width: 640px;
+margin: 0 auto 60px;
+line-height: 2;
+}
+
+.cover-tagline strong {
+color: rgba(255,255,255,0.9);
+font-weight: 600;
+}
+
+.cover-metrics {
+display: flex;
+justify-content: center;
+gap: 0;
+border: 1px solid var(–border);
+max-width: 600px;
+margin: 0 auto 60px;
+}
+
+.cover-metric {
+flex: 1;
+padding: 24px 20px;
+border-left: 1px solid var(–border);
+text-align: center;
+}
+.cover-metric:last-child { border-left: none; }
+
+.metric-val {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 28px;
+font-weight: 800;
+color: var(–gold2);
+display: block;
+line-height: 1;
+margin-bottom: 6px;
+}
+.metric-lbl {
+font-size: 10px;
+letter-spacing: 2px;
+color: rgba(255,255,255,0.35);
+font-family: ‘Tajawal’, sans-serif;
+}
+
+.scroll-hint {
+font-size: 11px;
+letter-spacing: 3px;
+color: rgba(255,255,255,0.2);
+animation: pulse 2s infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:0.2} 50%{opacity:0.6} }
+
+/* ════════════════════════════════════
+NAV
+════════════════════════════════════ */
+nav {
+position: sticky; top: 0; z-index: 100;
+background: rgba(10,10,10,0.96);
+backdrop-filter: blur(20px);
+border-bottom: 1px solid var(–border);
+padding: 0 40px;
+overflow-x: auto;
+}
+
+.nav-inner {
+display: flex;
+max-width: 1100px;
+margin: 0 auto;
+white-space: nowrap;
+}
+
+nav a {
+display: inline-block;
+padding: 18px 18px;
+font-size: 12px;
+letter-spacing: 1px;
+font-weight: 700;
+color: rgba(255,255,255,0.35);
+text-decoration: none;
+border-bottom: 2px solid transparent;
+transition: all 0.2s;
+font-family: ‘Tajawal’, sans-serif;
+}
+nav a:hover { color: rgba(255,255,255,0.7); }
+nav a.active { color: var(–gold2); border-bottom-color: var(–gold); }
+
+/* ════════════════════════════════════
+LAYOUT
+════════════════════════════════════ */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+.section {
+padding: 100px 0;
+border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.section-eyebrow {
+font-size: 10px;
+letter-spacing: 5px;
+color: var(–gold);
+font-weight: 700;
+font-family: ‘Tajawal’, sans-serif;
+margin-bottom: 16px;
+display: block;
+}
+
+.section-title {
+font-family: ‘Tajawal’, sans-serif;
+font-size: clamp(32px, 4vw, 52px);
+font-weight: 900;
+line-height: 1.1;
+margin-bottom: 20px;
+letter-spacing: -1px;
+}
+
+.section-desc {
+font-size: 16px;
+color: rgba(255,255,255,0.45);
+max-width: 580px;
+font-weight: 300;
+line-height: 1.9;
+}
+
+/* ════════════════════════════════════
+PROBLEM / OPPORTUNITY
+════════════════════════════════════ */
+.prob-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 2px;
+margin-top: 60px;
+background: var(–border);
+border: 1px solid var(–border);
+}
+
+.prob-card {
+background: var(–card-bg);
+padding: 40px 36px;
+}
+
+.prob-card.highlight {
+background: linear-gradient(135deg, rgba(200,149,42,0.12), rgba(200,149,42,0.04));
+border: 1px solid rgba(200,149,42,0.2);
+}
+
+.prob-label {
+font-size: 10px; letter-spacing: 3px; font-weight: 700;
+color: var(–gold); margin-bottom: 16px; display: block;
+font-family: ‘Tajawal’, sans-serif;
+}
+
+.prob-title {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 22px; font-weight: 800; margin-bottom: 16px;
+line-height: 1.3; color: var(–white);
+}
+
+.prob-body {
+font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.9; font-weight: 300;
+}
+
+.prob-stat {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 48px; font-weight: 900; color: var(–gold2);
+margin-top: 24px; display: block; line-height: 1;
+}
+
+.prob-stat-label {
+font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 8px; display: block;
+}
+
+/* ════════════════════════════════════
+COMPETITORS
+════════════════════════════════════ */
+.comp-table {
+width: 100%; border-collapse: collapse; margin-top: 50px;
+font-size: 14px;
+}
+
+.comp-table th {
+padding: 16px 20px; text-align: right;
+font-size: 10px; letter-spacing: 3px; font-weight: 700;
+color: var(–gold); background: var(–card-bg);
+border-bottom: 1px solid var(–border);
+font-family: ‘Tajawal’, sans-serif;
+}
+
+.comp-table td {
+padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+color: rgba(255,255,255,0.7); vertical-align: top;
+background: rgba(255,255,255,0.02);
+}
+
+.comp-table tr:last-child td { border-bottom: none; }
+
+.comp-table .our-row td {
+background: linear-gradient(90deg, rgba(200,149,42,0.08), rgba(200,149,42,0.03));
+color: var(–white);
+font-weight: 600;
+}
+
+.comp-table .our-row td:first-child {
+border-right: 3px solid var(–gold);
+}
+
+.check { color: #4CAF50; font-size: 16px; }
+.cross { color: #f44336; font-size: 16px; }
+.partial { color: var(–gold2); font-size: 16px; }
+
+/* ════════════════════════════════════
+MARKET
+════════════════════════════════════ */
+.market-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 2px;
+background: var(–border);
+border: 1px solid var(–border);
+margin-top: 60px;
+}
+
+.market-card {
+background: var(–card-bg);
+padding: 36px 28px;
+text-align: center;
+}
+
+.market-num {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 42px; font-weight: 900;
+color: var(–gold2); line-height: 1;
+margin-bottom: 10px; display: block;
+}
+
+.market-lbl {
+font-size: 12px; color: rgba(255,255,255,0.4);
+line-height: 1.6; font-weight: 300;
+}
+
+/* ════════════════════════════════════
+REVENUE MODEL
+════════════════════════════════════ */
+.rev-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 30px;
+margin-top: 60px;
+}
+
+.rev-card {
+border: 1px solid var(–border);
+padding: 36px;
+background: var(–card-bg);
+position: relative;
+overflow: hidden;
+}
+
+.rev-card::before {
+content: ‘’;
+position: absolute; top: 0; right: 0;
+width: 3px; height: 100%;
+background: var(–gold);
+}
+
+.rev-card-title {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 20px; font-weight: 800; margin-bottom: 12px;
+}
+
+.rev-card-price {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 42px; font-weight: 900;
+color: var(–gold2); line-height: 1; margin-bottom: 8px;
+}
+
+.rev-card-sub { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 24px; }
+
+.rev-list { list-style: none; }
+.rev-list li {
+font-size: 14px; color: rgba(255,255,255,0.6);
+padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+display: flex; gap: 10px;
+}
+.rev-list li::before { content: ‘—’; color: var(–gold); flex-shrink: 0; }
+.rev-list li:last-child { border-bottom: none; }
+
+/* ════════════════════════════════════
+FINANCIAL PROJECTIONS
+════════════════════════════════════ */
+.proj-table {
+width: 100%; border-collapse: collapse;
+margin-top: 50px; font-size: 14px;
+}
+
+.proj-table th {
+padding: 16px 20px; text-align: center;
+font-size: 10px; letter-spacing: 3px; font-weight: 700;
+color: var(–gold); background: var(–card-bg);
+border-bottom: 1px solid var(–border);
+font-family: ‘Tajawal’, sans-serif;
+}
+
+.proj-table td {
+padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+text-align: center; color: rgba(255,255,255,0.7);
+}
+
+.proj-table .highlight-row td { color: var(–gold2); font-weight: 700; }
+.proj-table .total-row td { color: var(–white); font-weight: 800; background: rgba(200,149,42,0.08); font-size: 15px; }
+
+.proj-note {
+font-size: 12px; color: rgba(255,255,255,0.3);
+margin-top: 16px; font-style: italic; text-align: center;
+}
+
+/* ════════════════════════════════════
+ECOSYSTEM / APPS
+════════════════════════════════════ */
+.apps-grid {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 2px;
+background: var(–border);
+border: 1px solid var(–border);
+margin-top: 60px;
+}
+
+.app-card {
+background: var(–card-bg);
+padding: 32px 24px;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+
+.app-card::after {
+content: ‘’;
+position: absolute; bottom: 0; left: 0; right: 0;
+height: 2px;
+}
+
+.app-card.c1::after { background: #1D8A55; }
+.app-card.c2::after { background: #1A5C99; }
+.app-card.c3::after { background: #6B2FAB; }
+.app-card.c4::after { background: #C8952A; }
+.app-card.c5::after { background: #8C3A1A; }
+
+.app-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+
+.app-name2 {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 15px; font-weight: 800; margin-bottom: 6px;
+}
+
+.app-desc { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.6; margin-bottom: 16px; }
+
+.app-tag2 {
+font-size: 10px; letter-spacing: 1px; font-weight: 700;
+padding: 4px 10px;
+border: 1px solid rgba(255,255,255,0.1);
+color: rgba(255,255,255,0.4);
+display: inline-block; margin: 2px;
+}
+
+/* ════════════════════════════════════
+FLOW SECTION
+════════════════════════════════════ */
+.flow-tabs {
+display: flex; gap: 0;
+border: 1px solid var(–border);
+margin-top: 60px;
+overflow-x: auto;
+}
+
+.flow-tab {
+flex: 1; padding: 18px 20px;
+background: var(–card-bg);
+border-none; border-left: 1px solid var(–border);
+color: rgba(255,255,255,0.35);
+cursor: pointer; font-size: 13px; font-weight: 700;
+transition: all 0.2s; text-align: center;
+font-family: ‘Tajawal’, sans-serif;
+white-space: nowrap;
+}
+
+.flow-tab:first-child { border-left: none; }
+.flow-tab.active { background: rgba(200,149,42,0.12); color: var(–gold2); border-bottom: 2px solid var(–gold); }
+.flow-tab:hover:not(.active) { color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.03); }
+
+.flow-panels { border: 1px solid var(–border); border-top: none; }
+
+.flow-panel { display: none; padding: 48px 40px; }
+.flow-panel.active { display: block; }
+
+.flow-steps-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 20px;
+}
+
+.flow-step-card {
+border: 1px solid rgba(255,255,255,0.07);
+padding: 24px;
+background: rgba(255,255,255,0.02);
+position: relative;
+}
+
+.flow-step-num {
+position: absolute; top: 20px; left: 20px;
+font-family: ‘Tajawal’, sans-serif;
+font-size: 10px; letter-spacing: 2px; font-weight: 700;
+color: var(–gold); opacity: 0.7;
+}
+
+.flow-step-title {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 16px; font-weight: 800;
+margin-bottom: 12px; padding-left: 48px;
+}
+
+.flow-step-body { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.9; }
+
+.flow-path-block {
+background: rgba(0,0,0,0.4);
+border-right: 2px solid var(–gold);
+padding: 16px 20px; margin-top: 12px;
+font-family: ‘Courier New’, monospace;
+font-size: 12px; color: rgba(255,255,255,0.6);
+line-height: 2; direction: ltr; text-align: left;
+}
+
+.flow-path-block .arr { color: var(–gold2); }
+
+.fl { list-style: none; padding: 0; }
+.fl li {
+font-size: 13px; padding: 6px 0;
+border-bottom: 1px solid rgba(255,255,255,0.05);
+color: rgba(255,255,255,0.6);
+display: flex; gap: 8px; align-items: flex-start;
+}
+.fl li:last-child { border-bottom: none; }
+.fl li::before { content: ‘—’; color: var(–gold); flex-shrink: 0; margin-top: 2px; }
+
+.note-box {
+background: rgba(200,149,42,0.08);
+border-right: 2px solid var(–gold);
+padding: 14px 18px; margin-top: 16px;
+font-size: 13px; color: rgba(255,255,255,0.6);
+line-height: 1.8;
+}
+
+.tbl { width: 100%; border-collapse: collapse; margin-top: 16px; }
+.tbl th { padding: 10px 14px; background: rgba(200,149,42,0.12); color: var(–gold); font-size: 11px; letter-spacing: 2px; text-align: right; }
+.tbl td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13px; color: rgba(255,255,255,0.6); }
+.tbl tr:last-child td { border-bottom: none; }
+
+/* ════════════════════════════════════
+ROADMAP
+════════════════════════════════════ */
+.roadmap {
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+gap: 2px;
+background: var(–border);
+border: 1px solid var(–border);
+margin-top: 60px;
+}
+
+.road-card {
+background: var(–card-bg);
+padding: 40px 32px;
+position: relative;
+overflow: hidden;
+}
+
+.road-card.phase1 { background: linear-gradient(160deg, rgba(200,149,42,0.1), var(–card-bg)); }
+.road-card.phase2 { background: linear-gradient(160deg, rgba(22,102,64,0.08), var(–card-bg)); }
+.road-card.phase3 { background: linear-gradient(160deg, rgba(58,15,110,0.1), var(–card-bg)); }
+
+.road-phase {
+font-size: 10px; letter-spacing: 4px; font-weight: 700;
+font-family: ‘Tajawal’, sans-serif; margin-bottom: 8px;
+}
+.phase1 .road-phase { color: var(–gold); }
+.phase2 .road-phase { color: var(–green2); }
+.phase3 .road-phase { color: #9B59B6; }
+
+.road-title {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 22px; font-weight: 900; margin-bottom: 6px;
+}
+
+.road-time {
+font-size: 13px; color: rgba(255,255,255,0.3);
+margin-bottom: 28px; font-weight: 300;
+}
+
+.road-items { list-style: none; }
+.road-items li {
+font-size: 13px; padding: 9px 0;
+border-bottom: 1px solid rgba(255,255,255,0.06);
+color: rgba(255,255,255,0.6); display: flex; gap: 10px;
+align-items: flex-start;
+}
+.road-items li:last-child { border-bottom: none; }
+.road-items li::before { content: ‘◆’; font-size: 8px; color: var(–gold); flex-shrink: 0; margin-top: 5px; }
+
+.road-goal {
+margin-top: 28px; padding: 16px;
+background: rgba(255,255,255,0.04);
+font-size: 13px; border-right: 2px solid var(–gold);
+}
+
+.road-goal strong { color: var(–gold2); }
+
+/* ════════════════════════════════════
+TEAM / STRUCTURE
+════════════════════════════════════ */
+.structure-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 20px;
+margin-top: 60px;
+}
+
+.struct-card {
+border: 1px solid var(–border);
+padding: 32px 28px;
+background: var(–card-bg);
+}
+
+.struct-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+.struct-title { font-family: ‘Tajawal’, sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 12px; }
+.struct-body { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.9; }
+
+/* ════════════════════════════════════
+FOOTER
+════════════════════════════════════ */
+footer {
+padding: 80px 40px;
+text-align: center;
+border-top: 1px solid var(–border);
+background: var(–black);
+}
+
+.footer-logo {
+font-family: ‘Tajawal’, sans-serif;
+font-size: 48px; font-weight: 900;
+color: rgba(255,255,255,0.08);
+letter-spacing: -2px;
+margin-bottom: 24px; display: block;
+}
+
+.footer-note {
+font-size: 12px; color: rgba(255,255,255,0.2);
+letter-spacing: 2px; font-family: ‘Tajawal’, sans-serif;
+}
+
+/* ════════════════════════════════════
+FADE IN
+════════════════════════════════════ */
+.fade { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade.in { opacity: 1; transform: translateY(0); }
+
+/* ════════════════════════════════════
+RESPONSIVE
+════════════════════════════════════ */
+@media (max-width: 768px) {
+.prob-grid, .rev-grid, .flow-steps-grid, .roadmap, .structure-grid { grid-template-columns: 1fr; }
+.apps-grid { grid-template-columns: repeat(2, 1fr); }
+.market-grid { grid-template-columns: repeat(2, 1fr); }
+.container { padding: 0 20px; }
+.cover { padding: 60px 20px; }
+.flow-panel { padding: 24px 20px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     COVER
+══════════════════════════════════════ -->
+
+<section class="cover">
+  <div class="cover-noise"></div>
+  <div class="cover-lines"></div>
+  <div class="cover-glow"></div>
+
+  <div class="cover-content">
+    <div class="cover-eyebrow">PLATFORM OVERVIEW — INVESTOR BRIEF — CONFIDENTIAL</div>
+
+```
+<div class="app-names-row">
+  <button class="app-name-btn active" onclick="pickName(this)">SnapCut</button>
+  <button class="app-name-btn" onclick="pickName(this)">ClipQ</button>
+  <button class="app-name-btn" onclick="pickName(this)">BarberQ</button>
+  <button class="app-name-btn" onclick="pickName(this)">TrimBook</button>
+  <button class="app-name-btn" onclick="pickName(this)">QueueUp</button>
+  <button class="app-name-btn" onclick="pickName(this)">FadePro</button>
+</div>
+
+<p class="name-hint">انقر على الاسم لاختيار المفضل</p>
+
+<p class="cover-tagline">
+  منصة <strong>SaaS</strong> متكاملة لحجز خدمات الحلاقة في الأردن —
+  تربط الزبائن بالحلاقين والصالونات بتجربة رقمية سلسة،
+  مع نظام إدارة احترافي وأدوات مبيعات ميدانية متقدمة.
+</p>
+
+<div class="cover-metrics">
+  <div class="cover-metric">
+    <span class="metric-val">5</span>
+    <span class="metric-lbl">تطبيقات</span>
+  </div>
+  <div class="cover-metric">
+    <span class="metric-val">🇯🇴</span>
+    <span class="metric-lbl">السوق الأول</span>
+  </div>
+  <div class="cover-metric">
+    <span class="metric-val">15JD</span>
+    <span class="metric-lbl">اشتراك شهري</span>
+  </div>
+  <div class="cover-metric">
+    <span class="metric-val">Multi</span>
+    <span class="metric-lbl">Country Ready</span>
+  </div>
+</div>
+
+<div class="scroll-hint">▼ &nbsp; اسحب للأسفل</div>
+```
+
+  </div>
+</section>
+
+<!-- NAV -->
+
+<nav>
+  <div class="nav-inner">
+    <a href="#problem">المشكلة</a>
+    <a href="#market">السوق</a>
+    <a href="#competitors">المنافسون</a>
+    <a href="#revenue">الإيرادات</a>
+    <a href="#projections">التوقعات</a>
+    <a href="#ecosystem">المنظومة</a>
+    <a href="#flows">الـ Flows</a>
+    <a href="#roadmap">الخطة</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     PROBLEM & OPPORTUNITY
+══════════════════════════════════════ -->
+
+<section class="section" id="problem">
+  <div class="container">
+    <div class="fade">
+      <span class="section-eyebrow">01 — THE PROBLEM</span>
+      <h2 class="section-title">المشكلة والفرصة</h2>
+      <p class="section-desc">صناعة الحلاقة في الأردن تعمل اليوم بطريقة يدوية كاملة — لا حجز، لا تنظيم، لا بيانات.</p>
+    </div>
+
+```
+<div class="prob-grid fade" style="transition-delay:0.1s">
+  <div class="prob-card">
+    <span class="prob-label">المشكلة — الزبون</span>
+    <div class="prob-title">الانتظار وعدم اليقين</div>
+    <div class="prob-body">الزبون يذهب للصالون ويجلس يتنظر ساعة أو أكثر دون أي معرفة مسبقة بوقت انتظاره. لا يوجد حجز، لا تذكير، لا معرفة بأوقات ازدحام الصالون.</div>
+    <span class="prob-stat">+60%</span>
+    <span class="prob-stat-label">من الزبائن يفضلون الحجز المسبق حسب استطلاعات سلوك المستهلك الأردني</span>
+  </div>
+
+  <div class="prob-card">
+    <span class="prob-label">المشكلة — الصالون</span>
+    <div class="prob-title">لا بيانات، لا تنظيم</div>
+    <div class="prob-body">مدير الصالون لا يعرف أيام ذروته، لا يقدر يتابع أداء حلاقيه، لا يملك أرقاماً عن إيراداته. كل شيء يدوي وغير منظم.</div>
+    <span class="prob-stat">0%</span>
+    <span class="prob-stat-label">من صالونات الحلاقة الأردنية تستخدم نظام حجز رقمي متكامل حالياً</span>
+  </div>
+
+  <div class="prob-card highlight">
+    <span class="prob-label">الفرصة</span>
+    <div class="prob-title">سوق بكر وجاهز للتحول الرقمي</div>
+    <div class="prob-body">لا يوجد حل محلي متخصص لصالونات الرجال في الأردن. Fresha العالمي موجود لكنه غير مُفعَّل بشكل فعلي في السوق المحلي، وطرق الدفع المحلية غير مدعومة فيه.</div>
+  </div>
+
+  <div class="prob-card highlight">
+    <span class="prob-label">الميزة التنافسية</span>
+    <div class="prob-title">محلي ١٠٠٪ من اليوم الأول</div>
+    <div class="prob-body">دفع بكليك وزين كاش، واجهة عربية، فريق مبيعات ميداني يبني الثقة شخصياً، وبروفايل مستقل للحلاق — لا يوفره أي منافس حالي.</div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     MARKET
+══════════════════════════════════════ -->
+
+<section class="section" id="market">
+  <div class="container">
+    <div class="fade">
+      <span class="section-eyebrow">02 — MARKET SIZE</span>
+      <h2 class="section-title">حجم السوق</h2>
+      <p class="section-desc">سوق الحلاقة في الأردن كبير وغير رقمي — وهذا يعني فرصة استثنائية للمحرك الأول.</p>
+    </div>
+
+```
+<div class="market-grid fade" style="transition-delay:0.1s">
+  <div class="market-card">
+    <span class="market-num">+4000</span>
+    <div class="market-lbl">صالون حلاقة رجالي مُرخَّص في الأردن</div>
+  </div>
+  <div class="market-card">
+    <span class="market-num">+800</span>
+    <div class="market-lbl">صالون في عمان وحدها — السوق الأول</div>
+  </div>
+  <div class="market-card">
+    <span class="market-num">11M</span>
+    <div class="market-lbl">نفوس الأردن — نسبة الشباب 60%+</div>
+  </div>
+  <div class="market-card">
+    <span class="market-num">15.4%</span>
+    <div class="market-lbl">معدل نمو سوق تطبيقات الحجز عالمياً سنوياً</div>
+  </div>
+</div>
+
+<div class="prob-grid fade" style="margin-top:2px; transition-delay:0.2s">
+  <div class="prob-card">
+    <span class="prob-label">السوق العالمي</span>
+    <div class="prob-title">$492M في 2025 — $1.78B بحلول 2034</div>
+    <div class="prob-body">سوق تطبيقات حجز الحلاقة عالمياً ينمو بمعدل 15.4% سنوياً. المنطقة العربية لا تزال غير مُخدَّمة رقمياً مقارنة بأمريكا الشمالية التي تمتلك 38% من السوق.</div>
+  </div>
+  <div class="prob-card">
+    <span class="prob-label">سلوك المستهلك</span>
+    <div class="prob-title">77% من المواعيد تُحجز أونلاين عالمياً</div>
+    <div class="prob-body">بحسب Mangomint، 77.49% من مواعيد صالونات الحلاقة عالمياً تُحجز إلكترونياً. في الأردن هذا الرقم أقل من 5% — مما يعني مساحة نمو هائلة.</div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     COMPETITORS
+══════════════════════════════════════ -->
+
+<section class="section" id="competitors">
+  <div class="container">
+    <div class="fade">
+      <span class="section-eyebrow">03 — COMPETITIVE LANDSCAPE</span>
+      <h2 class="section-title">المنافسون</h2>
+      <p class="section-desc">تحليل المنافسين المحليين والعالميين في سوق الأردن.</p>
+    </div>
+
+```
+<table class="comp-table fade" style="transition-delay:0.1s">
+  <thead>
+    <tr>
+      <th>المنافس</th>
+      <th>النوع</th>
+      <th>التواجد بالأردن</th>
+      <th>دفع محلي</th>
+      <th>بروفايل حلاق</th>
+      <th>فريق ميداني</th>
+      <th>عربي كامل</th>
+      <th>نقطة الضعف</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="our-row">
+      <td>🏆 <strong>مشروعنا</strong></td>
+      <td>محلي متخصص</td>
+      <td><span class="check">✓</span> مبني لها</td>
+      <td><span class="check">✓</span> كليك + زين</td>
+      <td><span class="check">✓</span> مستقل</td>
+      <td><span class="check">✓</span> خرائط تفاعلية</td>
+      <td><span class="check">✓</span> ١٠٠٪</td>
+      <td>جديد في السوق</td>
+    </tr>
+    <tr>
+      <td>Fresha</td>
+      <td>عالمي</td>
+      <td><span class="partial">~</span> محدود</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="partial">~</span> جزئي</td>
+      <td>لا يدعم الدينار الأردني ولا الدفع المحلي</td>
+    </tr>
+    <tr>
+      <td>دوري App</td>
+      <td>محلي عام</td>
+      <td><span class="check">✓</span> نعم</td>
+      <td><span class="partial">~</span> محدود</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="check">✓</span> نعم</td>
+      <td>دليل فقط — لا يوجد حجز فعلي ولا إدارة صالون</td>
+    </tr>
+    <tr>
+      <td>حلاقي App</td>
+      <td>محلي</td>
+      <td><span class="check">✓</span> نعم</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="check">✓</span> نعم</td>
+      <td>تطبيق بسيط بدون نظام إدارة متكامل — غير نشط تقريباً</td>
+    </tr>
+    <tr>
+      <td>نعيماً App</td>
+      <td>خليجي</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="partial">~</span> جزئي</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="check">✓</span> نعم</td>
+      <td>مُصمَّم للسوق الخليجي وغير موجود في الأردن</td>
+    </tr>
+    <tr>
+      <td>Booksy / Vagaro</td>
+      <td>عالمي</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="partial">~</span> جزئي</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td><span class="cross">✗</span> لا</td>
+      <td>غير متوفر بالعربية ولا يدعم المنطقة</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="note-box fade" style="margin-top:24px; transition-delay:0.2s">
+  <strong style="color:var(--gold2)">الخلاصة التنافسية:</strong> لا يوجد منافس محلي جاد ومتكامل لصالونات الرجال في الأردن يجمع بين الحجز الفوري + إدارة الصالون + بروفايل الحلاق + الدفع المحلي. هذه الفجوة هي فرصتنا الحقيقية.
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     REVENUE MODEL
+══════════════════════════════════════ -->
+
+<section class="section" id="revenue">
+  <div class="container">
+    <div class="fade">
+      <span class="section-eyebrow">04 — BUSINESS MODEL</span>
+      <h2 class="section-title">نموذج الإيرادات</h2>
+      <p class="section-desc">بسيط وواضح — اشتراك شهري ثابت للصالونات، بدون عمولة على الزبون.</p>
+    </div>
+
+```
+<div class="rev-grid fade" style="transition-delay:0.1s">
+  <div class="rev-card">
+    <div class="rev-card-title">💳 اشتراك الصالون الشهري</div>
+    <div class="rev-card-price">15 JD</div>
+    <div class="rev-card-sub">دينار أردني / شهر / صالون</div>
+    <ul class="rev-list">
+      <li>فترة تجربة مجانية (مدتها قابلة للتعديل من الأدمن)</li>
+      <li>الدفع عبر كليك أو تحويل إلكتروني</li>
+      <li>تجديد تلقائي شهري</li>
+      <li>لا توجد رسوم إضافية أو عمولات</li>
+      <li>إمكانية تمديد التجربة كاستثناء لصالونات مميزة</li>
+    </ul>
+  </div>
+
+  <div class="rev-card">
+    <div class="rev-card-title">🚀 قنوات الاكتساب</div>
+    <div class="rev-card-price" style="font-size:28px">مبيعات ميدانية + ذاتي</div>
+    <div class="rev-card-sub">نموذجان للانضمام</div>
+    <ul class="rev-list">
+      <li>موظف مبيعات يزور الصالون شخصياً — ثقة أعلى</li>
+      <li>صاحب الصالون يتقدم ذاتياً عبر الموقع</li>
+      <li>خرائط تفاعلية لتحديد الصالونات غير المشتركة</li>
+      <li>كل موظف يتابع صالوناته فقط ضمن منطقته</li>
+      <li>لا عمولة على الزبون — تجربة حجز نظيفة تماماً</li>
+    </ul>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FINANCIAL PROJECTIONS
+══════════════════════════════════════ -->
+
+<section class="section" id="projections">
+  <div class="container">
+    <div class="fade">
+      <span class="section-eyebrow">05 — FINANCIAL PROJECTIONS</span>
+      <h2 class="section-title">التوقعات المالية</h2>
+      <p class="section-desc">توقعات محافظة قائمة على اختراق تدريجي لسوق عمان أولاً، ثم التوسع لباقي الأردن.</p>
+    </div>
+
+```
+<table class="proj-table fade" style="transition-delay:0.1s">
+  <thead>
+    <tr>
+      <th>المرحلة</th>
+      <th>الإطار الزمني</th>
+      <th>الصالونات المستهدفة</th>
+      <th>الصالونات المتوقعة</th>
+      <th>الإيراد الشهري</th>
+      <th>الإيراد السنوي</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>🟡 التأسيس</td>
+      <td>شهر 1-3</td>
+      <td>عمان فقط</td>
+      <td>30 صالون (تجربة)</td>
+      <td>0 JD (مجانية)</td>
+      <td>—</td>
+    </tr>
+    <tr class="highlight-row">
+      <td>🟢 الانطلاق</td>
+      <td>شهر 4-6</td>
+      <td>عمان</td>
+      <td>30 صالون مدفوع</td>
+      <td>450 JD</td>
+      <td>~2,700 JD</td>
+    </tr>
+    <tr>
+      <td>📈 النمو</td>
+      <td>شهر 7-9</td>
+      <td>عمان + الزرقاء</td>
+      <td>80 صالون</td>
+      <td>1,200 JD</td>
+      <td>~7,200 JD</td>
+    </tr>
+    <tr class="highlight-row">
+      <td>🚀 التوسع</td>
+      <td>شهر 10-12</td>
+      <td>الأردن كامل</td>
+      <td>200 صالون</td>
+      <td>3,000 JD</td>
+      <td>~18,000 JD</td>
+    </tr>
+    <tr>
+      <td>🌍 السنة 2</td>
+      <td>سنة ثانية</td>
+      <td>الأردن + دولة جديدة</td>
+      <td>500 صالون</td>
+      <td>7,500 JD</td>
+      <td>~90,000 JD</td>
+    </tr>
+    <tr class="total-row">
+      <td colspan="5">🎯 هدف نهاية السنة الأولى</td>
+      <td>+18,000 JD/سنة</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="proj-note">* الأرقام تقديرية محافظة قائمة على اختراق 5% من السوق في عمان خلال السنة الأولى. القيمة الفعلية قد تكون أعلى بكثير مع فريق مبيعات نشط.</p>
+
+<div class="market-grid fade" style="margin-top: 40px; transition-delay:0.2s">
+  <div class="market-card">
+    <span class="market-num">200</span>
+    <div class="market-lbl">صالون = نقطة التعادل<br>(Break Even)</div>
+  </div>
+  <div class="market-card">
+    <span class="market-num">5%</span>
+    <div class="market-lbl">من سوق عمان فقط لتحقيق الهدف الأول</div>
+  </div>
+  <div class="market-card">
+    <span class="market-num">36JD</span>
+    <div class="market-lbl">متوسط قيمة عميل سنوياً (LTV Year 1)</div>
+  </div>
+  <div class="market-card">
+    <span class="market-num">منخفض</span>
+    <div class="market-lbl">تكلفة الاحتفاظ بالعميل بعد الاعتياد على النظام</div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ECOSYSTEM
+══════════════════════════════════════ -->
+
+<section class="section" id="ecosystem">
+  <div class="container">
+    <div class="fade">
+      <span class="section-eyebrow">06 — PRODUCT ECOSYSTEM</span>
+      <h2 class="section-title">منظومة المنتجات</h2>
+      <p class="section-desc">5 تطبيقات متكاملة تُشكِّل منظومة متماسكة لكل طرف في المعادلة.</p>
+    </div>
+
+```
+<div class="apps-grid fade" style="transition-delay:0.1s">
+  <div class="app-card c1">
+    <span class="app-icon">👤</span>
+    <div class="app-name2">تطبيق الزبون</div>
+    <div class="app-desc">حجز سريع، بروفايل الحلاق، Waitlist ذكي</div>
+    <span class="app-tag2">📱 iOS & Android</span>
+  </div>
+  <div class="app-card c2">
+    <span class="app-icon">✂️</span>
+    <div class="app-name2">تطبيق الحلاق</div>
+    <div class="app-desc">جدول يومي، تقارير أرباح، Service Flow</div>
+    <span class="app-tag2">📱 مستقل</span>
+  </div>
+  <div class="app-card c3">
+    <span class="app-icon">🏪</span>
+    <div class="app-name2">لوحة الصالون</div>
+    <div class="app-desc">إدارة الحلاقين، الخدمات، التقارير</div>
+    <span class="app-tag2">💻 Web</span>
+    <span class="app-tag2">📱 Mobile</span>
+  </div>
+  <div class="app-card c4">
+    <span class="app-icon">⚙️</span>
+    <div class="app-name2">Super Admin</div>
+    <div class="app-desc">إدارة المنصة الكاملة، Multi-Country</div>
+    <span class="app-tag2">💻 Web</span>
+    <span class="app-tag2">📱 Mobile</span>
+  </div>
+  <div class="app-card c5">
+    <span class="app-icon">🗺️</span>
+    <div class="app-name2">Sales Field App</div>
+    <div class="app-desc">خرائط ميدانية، إضافة صالونات، تقارير أداء</div>
+    <span class="app-tag2">📱 ميداني فقط</span>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FLOWS
+══════════════════════════════════════ -->
+
+<section class="section" id="flows">
+  <div class="container">
+    <div class="fade">
+      <span class="section-eyebrow">07 — USER FLOWS</span>
+      <h2 class="section-title">رحلة كل مستخدم</h2>
+      <p class="section-desc">تفاصيل الـ Flow الكامل لكل طرف في المنظومة.</p>
+    </div>
+
+```
+<div class="fade" style="transition-delay:0.1s">
+  <div class="flow-tabs">
+    <button class="flow-tab active" onclick="showFlow(this,'f1')">👤 الزبون</button>
+    <button class="flow-tab" onclick="showFlow(this,'f2')">✂️ الحلاق</button>
+    <button class="flow-tab" onclick="showFlow(this,'f3')">🏪 الصالون</button>
+    <button class="flow-tab" onclick="showFlow(this,'f4')">⚙️ Super Admin</button>
+    <button class="flow-tab" onclick="showFlow(this,'f5')">🗺️ المبيعات</button>
+  </div>
+
+  <div class="flow-panels">
+
+    <!-- CUSTOMER -->
+    <div class="flow-panel active" id="f1">
+      <div class="flow-steps-grid">
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 01</div>
+          <div class="flow-step-title">تسجيل الدخول & الموقع</div>
+          <ul class="fl">
+            <li>📱 رقم هاتف OTP — الأساسي</li>
+            <li>🍏 Apple ID أو Email</li>
+            <li>تحديد موقع GPS أو مدينة يدوياً</li>
+          </ul>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 02</div>
+          <div class="flow-step-title">Dual Entry Point للحجز</div>
+          <div class="flow-path-block">
+            Path A: Salon → Barber → Book<br>
+            Path B: <span class="arr">Search</span> Barber → Profile → Book
+          </div>
+          <div class="note-box">الأوقات مرتبطة بـ availability الحلاق تحديداً</div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 03</div>
+          <div class="flow-step-title">بروفايل الحلاق</div>
+          <ul class="fl">
+            <li>تقييم مستقل عن الصالون ⭐</li>
+            <li>معرض أعماله Portfolio</li>
+            <li>تخصصه: فيد، سكين فيد، كلاسيك</li>
+          </ul>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 04</div>
+          <div class="flow-step-title">الدفع</div>
+          <table class="tbl">
+            <tr><th>الطريقة</th><th>التوقيت</th></tr>
+            <tr><td>💵 كاش</td><td>عند الوصول</td></tr>
+            <tr><td>💳 Apple Pay</td><td>عند الحجز</td></tr>
+            <tr><td>🏦 كليك / زين كاش</td><td>عند الحجز</td></tr>
+          </table>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 05</div>
+          <div class="flow-step-title">Waitlist الذكي</div>
+          <div class="flow-path-block">
+            All slots full <span class="arr">→</span> Join Waitlist<br>
+            Slot opens <span class="arr">→</span> Notify customer<br>
+            15 min to confirm <span class="arr">→</span> Auto next
+          </div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 06</div>
+          <div class="flow-step-title">No-Show System</div>
+          <ul class="fl">
+            <li>إذا لم يحضر خلال 15 دقيقة</li>
+            <li>إلغاء تلقائي + الحالة = No-show</li>
+            <li>الوقت يعود متاحاً للآخرين</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- BARBER -->
+    <div class="flow-panel" id="f2">
+      <div class="flow-steps-grid">
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 01</div>
+          <div class="flow-step-title">Onboarding بالدعوة</div>
+          <div class="flow-path-block">
+            Salon Admin adds email<br>
+            <span class="arr">→</span> System sends invite<br>
+            <span class="arr">→</span> Barber downloads app<br>
+            <span class="arr">→</span> Completes profile
+          </div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 02</div>
+          <div class="flow-step-title">حالة الحلاق (يدوية)</div>
+          <ul class="fl">
+            <li>🟢 Available — متاح</li>
+            <li>🔴 Busy — في خدمة (تلقائي عند Start)</li>
+            <li>⚫ Offline — غير متاح</li>
+          </ul>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 03</div>
+          <div class="flow-step-title">Service Flow</div>
+          <div class="flow-path-block">
+            15 min reminder<br>
+            <span class="arr">→</span> ▶ Start Service → Busy<br>
+            <span class="arr">→</span> ✅ Complete → Available
+          </div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 04</div>
+          <div class="flow-step-title">التقارير — يومي/أسبوعي/شهري</div>
+          <ul class="fl">
+            <li>💰 الدخل مع مقارنة بالفترة السابقة</li>
+            <li>✂️ عدد الحجوزات المكتملة</li>
+            <li>🚫 عدد No-shows</li>
+            <li>💳 توزيع طرق الدفع</li>
+          </ul>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">NOTE</div>
+          <div class="flow-step-title">إذا ترك الصالون</div>
+          <div class="note-box">الحلاق يحتفظ بحسابه وتقييماته ← يختفي عن المستخدمين ← يعود عند الانضمام لصالون جديد</div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 05</div>
+          <div class="flow-step-title">طلب إلغاء حجز</div>
+          <div class="flow-path-block">
+            Barber requests cancel<br>
+            <span class="arr">→</span> Goes to Salon Admin<br>
+            <span class="arr">→</span> Approve: Cancel + notify customer<br>
+            <span class="arr">→</span> Reject: Booking stays
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALON -->
+    <div class="flow-panel" id="f3">
+      <div class="flow-steps-grid">
+        <div class="flow-step-card">
+          <div class="flow-step-num">ENTRY 01</div>
+          <div class="flow-step-title">الانضمام — الطريق الميداني</div>
+          <div class="flow-path-block">
+            Sales rep visits salon<br>
+            <span class="arr">→</span> Adds via Sales App (instant)<br>
+            <span class="arr">→</span> Invite sent to owner<br>
+            <span class="arr">→</span> Trial starts
+          </div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">ENTRY 02</div>
+          <div class="flow-step-title">الانضمام — الطريق الذاتي</div>
+          <div class="flow-path-block">
+            Owner submits request<br>
+            <span class="arr">→</span> Admin reviews (Pending)<br>
+            <span class="arr">→</span> Approved: Email + temp pass<br>
+            <span class="arr">→</span> Trial starts
+          </div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 01</div>
+          <div class="flow-step-title">إدارة الحلاقين</div>
+          <ul class="fl">
+            <li>إضافة حلاق عبر إيميله</li>
+            <li>تعديل جدول كل حلاق مستقل</li>
+            <li>تفعيل / إيقاف حلاق</li>
+            <li>الخدمات والأسعار من الأدمن فقط</li>
+          </ul>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">STEP 02</div>
+          <div class="flow-step-title">التقارير</div>
+          <ul class="fl">
+            <li>يومي / أسبوعي / شهري</li>
+            <li>الإيرادات + مقارنة بالفترة السابقة</li>
+            <li>أفضل حلاق + أكثر خدمة طلباً</li>
+            <li>أوقات الذروة</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN -->
+    <div class="flow-panel" id="f4">
+      <div class="flow-steps-grid">
+        <div class="flow-step-card">
+          <div class="flow-step-num">SECTION 01</div>
+          <div class="flow-step-title">Dashboard الرئيسي</div>
+          <ul class="fl">
+            <li>عدد الصالونات النشطة + المستخدمين</li>
+            <li>دخل المنصة + نسبة No-show</li>
+            <li>طلبات تسجيل Pending ⏳</li>
+          </ul>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">SECTION 02</div>
+          <div class="flow-step-title">إعدادات فترة التجربة</div>
+          <div class="note-box">مدة التجربة قابلة للتعديل في أي وقت ← تنطبق على الصالونات الجديدة فقط ← يمكن استثناء صالون معين يدوياً</div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">SECTION 03</div>
+          <div class="flow-step-title">إدارة موظفي المبيعات</div>
+          <table class="tbl">
+            <tr><th>الصلاحية</th><th>موظف</th><th>أدمن</th></tr>
+            <tr><td>إضافة صالون</td><td>✅</td><td>✅</td></tr>
+            <tr><td>تمديد تجربة</td><td>❌</td><td>✅</td></tr>
+            <tr><td>تعديل اشتراك</td><td>❌</td><td>✅</td></tr>
+          </table>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">SECTION 04</div>
+          <div class="flow-step-title">Multi-Country</div>
+          <ul class="fl">
+            <li>إضافة دولة + تحديد عملتها</li>
+            <li>طرق دفع مختلفة لكل دولة</li>
+            <li>مناطق جغرافية لموظفي المبيعات</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALES -->
+    <div class="flow-panel" id="f5">
+      <div class="flow-steps-grid">
+        <div class="flow-step-card">
+          <div class="flow-step-num">CORE FEATURE</div>
+          <div class="flow-step-title">🗺️ الخريطة التفاعلية</div>
+          <div class="flow-path-block">
+            Salons on map — color coded:<br>
+            🟢 Active subscriber<br>
+            🟡 In trial period<br>
+            🔴 Expired — needs renewal<br>
+            ⚫ Not subscribed = TARGET
+          </div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">ACTION 01</div>
+          <div class="flow-step-title">إضافة صالون جديد</div>
+          <div class="flow-path-block">
+            Add salon from map<br>
+            <span class="arr">→</span> System creates account<br>
+            <span class="arr">→</span> Sends invite email<br>
+            <span class="arr">→</span> Marker turns 🟡
+          </div>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">ACTION 02</div>
+          <div class="flow-step-title">التواصل مع الصالون</div>
+          <ul class="fl">
+            <li>زر اتصال مباشر من بروفايل الصالون</li>
+            <li>زر واتساب خارجي</li>
+            <li>لا رسائل داخلية — خارجي فقط</li>
+          </ul>
+        </div>
+        <div class="flow-step-card">
+          <div class="flow-step-num">REPORTS</div>
+          <div class="flow-step-title">تقرير الأداء الشخصي</div>
+          <table class="tbl">
+            <tr><th>المؤشر</th><th>الوصف</th></tr>
+            <tr><td>إجمالي الصالونات</td><td>كل اللي أضافها</td></tr>
+            <tr><td>✅ نشطون</td><td>يدفعون حالياً</td></tr>
+            <tr><td>🟡 تجربة</td><td>جدد</td></tr>
+            <tr><td>🔴 منتهية</td><td>للمتابعة</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ROADMAP
+══════════════════════════════════════ -->
+
+<section class="section" id="roadmap">
+  <div class="container">
+    <div class="fade">
+      <span class="section-eyebrow">08 — GO-TO-MARKET ROADMAP</span>
+      <h2 class="section-title">خطة الإطلاق — 9 أشهر</h2>
+      <p class="section-desc">خطة مبدئية تركز على الأردن أولاً. ستُحدَّث كل 3 أشهر بناءً على نتائج السوق الفعلية.</p>
+    </div>
+
+```
+<div class="roadmap fade" style="transition-delay:0.1s">
+  <div class="road-card phase1">
+    <div class="road-phase">PHASE 01 — الأشهر 1-3</div>
+    <div class="road-title">البناء والتأسيس</div>
+    <div class="road-time">شهر 1 → شهر 3</div>
+    <ul class="road-items">
+      <li>تطوير تطبيق الزبون و الحلاق (MVP)</li>
+      <li>بناء لوحة إدارة الصالون (Web)</li>
+      <li>دمج بوابات الدفع: كليك + زين كاش</li>
+      <li>تطوير Sales App مع الخريطة</li>
+      <li>بناء Super Admin Dashboard</li>
+      <li>اختبار داخلي مع 5 صالونات تجريبية</li>
+      <li>تعيين أول موظفَي مبيعات ميداني</li>
+    </ul>
+    <div class="road-goal">
+      <strong>الهدف:</strong> المنتج جاهز للإطلاق + 10 صالونات تجريبية
+    </div>
+  </div>
+
+  <div class="road-card phase2">
+    <div class="road-phase">PHASE 02 — الأشهر 4-6</div>
+    <div class="road-title">الإطلاق والاكتساب</div>
+    <div class="road-time">شهر 4 → شهر 6</div>
+    <ul class="road-items">
+      <li>إطلاق رسمي في عمان</li>
+      <li>فريق مبيعات ميداني نشط يومياً</li>
+      <li>استهداف أحياء: الصويفية، الرابية، عبدون، الجبيهة</li>
+      <li>تحويل صالونات التجربة لمشتركين مدفوعين</li>
+      <li>حملة تسويق رقمي للزبائن (إنستغرام + تيك توك)</li>
+      <li>جمع feedback وتحسين المنتج</li>
+    </ul>
+    <div class="road-goal">
+      <strong>الهدف:</strong> 50 صالون نشط + 500 زبون مسجل
+    </div>
+  </div>
+
+  <div class="road-card phase3">
+    <div class="road-phase">PHASE 03 — الأشهر 7-9</div>
+    <div class="road-title">التوسع والتحسين</div>
+    <div class="road-time">شهر 7 → شهر 9</div>
+    <ul class="road-items">
+      <li>التوسع لمدن: الزرقاء، إربد، العقبة</li>
+      <li>إضافة موظفي مبيعات في المدن الجديدة</li>
+      <li>تفعيل ميزة Self-Onboarding للصالونات</li>
+      <li>تحليل البيانات وتحسين نسبة التحويل</li>
+      <li>التخطيط للتوسع لدولة مجاورة (فلسطين/السعودية)</li>
+      <li>تحديث الخطة للسنة الثانية</li>
+    </ul>
+    <div class="road-goal">
+      <strong>الهدف:</strong> 150+ صالون + نموذج جاهز للتوسع الإقليمي
+    </div>
+  </div>
+</div>
+
+<div class="note-box fade" style="margin-top:24px; transition-delay:0.2s">
+  <strong style="color:var(--gold2)">⚠️ ملاحظة مهمة:</strong> هذه الخطة مبدئية وستُراجَع وتُحدَّث كل 3 أشهر بناءً على نتائج السوق الفعلية، معدل الاكتساب، وتحديات التطوير.
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+
+<footer>
+  <span class="footer-logo" id="footer-name">SnapCut</span>
+  <p class="footer-note">وثيقة سرية — للمراجعة الداخلية فقط © 2026<br>جميع الأفكار والمحتوى محفوظة الحقوق</p>
+</footer>
+
+<script>
+// ── App name picker
+function pickName(el) {
+  document.querySelectorAll('.app-name-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('footer-name').textContent = el.textContent.trim();
+  document.title = el.textContent.trim() + ' — وثيقة المشروع';
+}
+
+// ── Flow tabs
+function showFlow(btn, id) {
+  document.querySelectorAll('.flow-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.flow-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Scroll animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+// ── Active nav
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + cur) l.classList.add('active');
+  });
+}, { passive: true });
+</script>
+
+</body>
+</html>
